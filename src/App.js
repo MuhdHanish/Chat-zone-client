@@ -5,12 +5,12 @@ import ChatPage from './pages/ChatPage';
 
 function App() {
   return (
-   <>
+   <div className='App'>
    <Routes>
     <Route path='/' exact element={<HomePage/>} />
     <Route path='/chat' element={<ChatPage/>} />
    </Routes>
-   </>
+   </div>
   );
 }
 
