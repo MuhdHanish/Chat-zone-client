@@ -1,51 +1,33 @@
-import React, { useState } from 'react'
-import HandleForm from '../../../Hooks/HandleForm';
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEyeSlash,faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
+import { FormControl, FormLabel, useToast } from "@chakra-ui/react";
+import "./Login.css";
+
 import {
-  FormControl,
-  FormLabel,
-} from "@chakra-ui/react";
-import './Login.css'
+  HandleForm , handleLogin } from "../../../utils";
 
 const Login = () => {
-    const [loginState, setLoginState] = HandleForm({
-      email: "",
-      passoword: "",
-    });
-    const [errors, setError] = useState({});
-    const [show,setShow] = useState(false)
-    const handleShow = () =>{
-      setShow(!show)
-    }
-    const validation = {
-      email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-      password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-    };
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      const trimmedEmail = loginState.email.trim();
-      if (validation.email.test(trimmedEmail) === false) {
-        setError({ email: "Invalid email" });
-        return;
-      }
-      if (validation.password.test(loginState.password) === false) {
-        setError({ password: "Invalid password" });
-        return;
-      }
-      try {
-        setError({});
-        setShow(false)
-        setButtonText("Sending");
-      } catch (error) {
-        setError({ general: error.response.data.message });
-      }
-    };
-    const [buttonText, setButtonText] = useState("Log In");
+ const [buttonText, setButtonText] = useState("Sign Up");
+
+ const [loginState, setLoginState] = HandleForm({
+   email: "",
+   password: "",
+ });
+  const toast = useToast();
+  const [show, setShow] = useState(false);
+  const handleShow = () => {
+    setShow(!show);
+  };
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    handleLogin(toast, loginState, setButtonText);
+  };
+
   return (
     <section className="login-form">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleFormSubmit}>
         <FormControl id="email" isRequired>
           <FormLabel>Email</FormLabel>
           <input
@@ -57,7 +39,6 @@ const Login = () => {
             onChange={setLoginState}
           />
         </FormControl>
-        {errors.email && <p className="error">{errors.email}</p>}
         <FormControl id="password" isRequired>
           <FormLabel>Password</FormLabel>
           <div className="password-input">
@@ -86,13 +67,12 @@ const Login = () => {
             )}
           </div>
         </FormControl>
-        {errors.password && <p className="error">{errors.password}</p>}
         <button type="submit">
           <span>{buttonText}</span>
         </button>
       </form>
     </section>
   );
-}
+};
 
-export default Login
+export default Login;

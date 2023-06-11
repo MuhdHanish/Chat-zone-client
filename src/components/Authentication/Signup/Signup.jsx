@@ -1,57 +1,55 @@
-import { FormControl, FormLabel} from '@chakra-ui/react'
-import React, {  useState } from 'react'
-import HandleForm from '../../../Hooks/HandleForm'
-import './Signup.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEyeSlash,faEye } from '@fortawesome/free-solid-svg-icons'
+import React, { useState } from "react";
+import { FormControl, FormLabel, useToast} from "@chakra-ui/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
+import {
+  HandleForm,
+  showToast,
+  uploadImageToCloudinary,
+  handleSignup,
+} from "../../../utils";
+import "./Signup.css";
+
 
 const Signup = () => {
-  const [signupState,setSignupState] = HandleForm({
-    name:'',
-    email:'',
-    passoword:'',
-  });
-  const HandleImage = (e) =>{
-    
-  }
-  const [errors,setError] = useState({})
-  const [show, setShow] = useState(false);
-  const handleShow = () => {
-    setShow(!show);
-  };
-  const validation = {
-    name: /^[a-zA-Z0-9]{4,12}$/,
-    email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-    password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
-  }
-
-  const handleSubmit = async (e) => {
-  e.preventDefault();
-  const trimmedname = signupState.name.trim();
-  if (validation.name.test(trimmedname)  === false) {
-    setError({name: 'Invalid name'});
-    return;
-  }
-  const trimmedEmail = signupState.email.trim();
-  if (validation.email.test(trimmedEmail) === false) {
-    setError({email: 'Invalid email' });
-    return;
-  }
-  if (validation.password.test(signupState.password) === false) {
-    setError({ password: 'Invalid password' });
-    return;
-  }
-  try{
-      setError({})
-      setButtonText('Sending')
-  } catch (error) {
-      setError({general:error.response.data.message})
-   }
-  };
+  const toast = useToast();
+  const [profile, setProfile] = useState('');
   const [buttonText, setButtonText] = useState("Sign Up");
+  const [show, setShow] = useState(false);
+
+  const [signupState, setSignupState] = HandleForm({
+    name: "",
+    email: "",
+    password: ""
+  });
+
+  const HandleImage = async (event) => {
+    const profile = event.target.files[0];
+    setButtonText("Uploading");
+    if (profile === undefined) {
+      showToast(toast,"Please select an image!");
+      return;
+    }else if (profile.type === "image/jpeg" || profile.type === "image/png") {
+      try {
+        const imageUrl = await uploadImageToCloudinary(profile);
+        setProfile(imageUrl);
+        setButtonText("Sign Up");
+      } catch (error) {
+        console.log(error);
+        setButtonText("Sign Up");
+        showToast(toast,"Failed to upload image");
+      }
+    }
+  };  
+
+   const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    handleSignup(toast, signupState, profile, setButtonText);
+  };
+
   return (
     <section className="signup-form">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleFormSubmit}>
         <FormControl id="name" isRequired>
           <FormLabel>Name</FormLabel>
           <input
@@ -63,7 +61,6 @@ const Signup = () => {
             onChange={setSignupState}
           />
         </FormControl>
-        {errors.name && <p className="error">{errors.name}</p>}
         <FormControl id="email" isRequired>
           <FormLabel>Email</FormLabel>
           <input
@@ -75,7 +72,6 @@ const Signup = () => {
             onChange={setSignupState}
           />
         </FormControl>
-        {errors.email && <p className="error">{errors.email}</p>}
         <FormControl id="password" isRequired>
           <FormLabel>Password</FormLabel>
           <div className="password-input">
@@ -90,7 +86,7 @@ const Signup = () => {
             {show ? (
               <FontAwesomeIcon
                 icon={faEye}
-                onClick={handleShow}
+                onClick={()=>setShow(false)}
                 size="sm"
                 className="eye-icon"
               />
@@ -98,13 +94,12 @@ const Signup = () => {
               <FontAwesomeIcon
                 icon={faEyeSlash}
                 size="sm"
-                onClick={handleShow}
+                onClick={()=>setShow(true)}
                 className="eye-icon"
               />
             )}
           </div>
         </FormControl>
-        {errors.password && <p className="error">{errors.password}</p>}
         <FormControl>
           <FormLabel>Image</FormLabel>
           <div className="file-input">
@@ -127,6 +122,6 @@ const Signup = () => {
       </form>
     </section>
   );
-}
+};
 
-export default Signup
+export default Signup;
