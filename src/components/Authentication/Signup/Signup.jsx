@@ -9,8 +9,11 @@ const Signup = () => {
   const [signupState,setSignupState] = HandleForm({
     name:'',
     email:'',
-    passoword:''
+    passoword:'',
   });
+  const HandleImage = (e) =>{
+    
+  }
   const [errors,setError] = useState({})
   const [show, setShow] = useState(false);
   const handleShow = () => {
@@ -45,7 +48,7 @@ const Signup = () => {
       setError({general:error.response.data.message})
    }
   };
-  const [buttonText, setButtonText] = useState("Send");
+  const [buttonText, setButtonText] = useState("Sign Up");
   return (
     <section className="signup-form">
       <form onSubmit={handleSubmit}>
@@ -102,6 +105,22 @@ const Signup = () => {
           </div>
         </FormControl>
         {errors.password && <p className="error">{errors.password}</p>}
+        <FormControl>
+          <FormLabel>Image</FormLabel>
+          <div className="file-input">
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              id="image-input"
+              onChange={HandleImage}
+              onClick={(event) => (event.target.value = null)} // Reset file selection on click
+            />
+            <label htmlFor="image-input">
+              <span>Choose Image</span>
+            </label>
+          </div>
+        </FormControl>
         <button type="submit">
           <span>{buttonText}</span>
         </button>

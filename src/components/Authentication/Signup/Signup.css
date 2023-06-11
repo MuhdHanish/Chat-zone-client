@@ -69,3 +69,20 @@
 .signup-form form button:hover::before {
   width: 100%;
 }
+.file-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.file-input input[type='file'] {
+  display: none;
+}
+
+.file-input span {
+  padding: 8px 16px;
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+  border-radius: 18px
+}

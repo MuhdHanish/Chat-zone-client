@@ -42,7 +42,7 @@ const Login = () => {
         setError({ general: error.response.data.message });
       }
     };
-    const [buttonText, setButtonText] = useState("Send");
+    const [buttonText, setButtonText] = useState("Log In");
   return (
     <section className="login-form">
       <form onSubmit={handleSubmit}>
