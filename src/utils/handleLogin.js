@@ -1,13 +1,14 @@
 import showToast from "./showToast";
 import { validateEmail, validatePassword } from "./formValidation";
+import axios from "../api/axios";
 
 const validation = {
  validateEmail,
  validatePassword,
 };
 
-export const handleLogin = async (toast, loginState, setButtonText) => {
- const {  email, password } = loginState;
+export const handleLogin = async (toast, loginState, setButtonText, navigate) => {
+ const { email, password } = loginState;
  const trimmedEmail = email.trim();
 
  if (!validation.validateEmail(trimmedEmail)) {
@@ -22,9 +23,23 @@ export const handleLogin = async (toast, loginState, setButtonText) => {
 
  try {
   setButtonText("Sending");
-  
+  const config = {
+   Headers: {
+    "Content-type": "applicaton-json"
+   }
+  }
+  const userDetials = {
+   email: trimmedEmail,
+   password: password,
+  }
+  const { data } = await axios.post("/login", userDetials, { config })
+  setButtonText("Log In");
+  localStorage.setItem('userInfo', JSON.stringify(data));
+  showToast(toast, data.message, "success");
+  navigate('/chats');
  } catch (error) {
   showToast(toast, error.response.data.message);
+  setButtonText("Log In");
   return;
  }
 };

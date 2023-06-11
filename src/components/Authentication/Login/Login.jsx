@@ -1,20 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FormControl, FormLabel, useToast } from "@chakra-ui/react";
 import "./Login.css";
 
-import {
-  HandleForm , handleLogin } from "../../../utils";
+import { HandleForm, handleLogin } from "../../../utils";
 
 const Login = () => {
-
- const [buttonText, setButtonText] = useState("Sign Up");
-
- const [loginState, setLoginState] = HandleForm({
-   email: "",
-   password: "",
- });
+  const navigate = useNavigate();
+  const [buttonText, setButtonText] = useState("Log In");
+  const [loginState, setLoginState] = HandleForm({
+    email: "",
+    password: "",
+  });
   const toast = useToast();
   const [show, setShow] = useState(false);
   const handleShow = () => {
@@ -22,7 +21,7 @@ const Login = () => {
   };
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    handleLogin(toast, loginState, setButtonText);
+    handleLogin(toast, loginState, setButtonText, navigate);
   };
 
   return (

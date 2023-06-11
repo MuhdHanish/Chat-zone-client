@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { FormControl, FormLabel, useToast} from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import { FormControl, FormLabel, useToast } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -10,26 +11,25 @@ import {
 } from "../../../utils";
 import "./Signup.css";
 
-
 const Signup = () => {
+  const navigate = useNavigate();
   const toast = useToast();
-  const [profile, setProfile] = useState('');
+  const [profile, setProfile] = useState("");
   const [buttonText, setButtonText] = useState("Sign Up");
   const [show, setShow] = useState(false);
-
   const [signupState, setSignupState] = HandleForm({
     name: "",
     email: "",
-    password: ""
+    password: "",
   });
 
   const HandleImage = async (event) => {
     const profile = event.target.files[0];
     setButtonText("Uploading");
     if (profile === undefined) {
-      showToast(toast,"Please select an image!");
+      showToast(toast, "Please select an image!", "warning");
       return;
-    }else if (profile.type === "image/jpeg" || profile.type === "image/png") {
+    } else if (profile.type === "image/jpeg" || profile.type === "image/png") {
       try {
         const imageUrl = await uploadImageToCloudinary(profile);
         setProfile(imageUrl);
@@ -37,14 +37,14 @@ const Signup = () => {
       } catch (error) {
         console.log(error);
         setButtonText("Sign Up");
-        showToast(toast,"Failed to upload image");
+        showToast(toast, "Failed to upload image", "warning");
       }
     }
-  };  
+  };
 
-   const handleFormSubmit = async (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
-    handleSignup(toast, signupState, profile, setButtonText);
+    handleSignup(toast, signupState, profile, setButtonText, navigate);
   };
 
   return (
@@ -86,7 +86,7 @@ const Signup = () => {
             {show ? (
               <FontAwesomeIcon
                 icon={faEye}
-                onClick={()=>setShow(false)}
+                onClick={() => setShow(false)}
                 size="sm"
                 className="eye-icon"
               />
@@ -94,7 +94,7 @@ const Signup = () => {
               <FontAwesomeIcon
                 icon={faEyeSlash}
                 size="sm"
-                onClick={()=>setShow(true)}
+                onClick={() => setShow(true)}
                 className="eye-icon"
               />
             )}
