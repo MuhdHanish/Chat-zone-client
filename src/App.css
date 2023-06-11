@@ -49,12 +49,39 @@ p, li, button, ul {
   text-decoration: none;
 }
 
+.container{
+ max-width: 1400px;
+ width: 100%;
+ margin: auto;
+ padding: 0 20px;
+}
 
 .App {
   min-height: 100vh;
-  display: flex;
   background-image: url('./assets/img/banner-bg.png');
   background-position:  center;
   background-size: cover;
   background-repeat: no-repeat;
 }
+
+.home-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-page  .tagline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10%;
+  width: 250px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 8px 10px;
+  background: linear-gradient(90.21deg, rgba(170, 54, 124, 0.5) -5.91%, rgba(74, 47, 189, 0.5) 111.58%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
