@@ -1,7 +1,8 @@
 import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import React from "react";
 import "./AuthVarification.css";
-import Login from "../Login/Login";
+import Login from "../Authentication/Login/Login";
+import Signup from "../Authentication/Signup/Signup";
 
 const AuthVarification = () => {
   const selectedBg =
@@ -28,7 +29,7 @@ const AuthVarification = () => {
             <Login/>
             </TabPanel>
             <TabPanel>
-              <p>two!</p>
+            <Signup/>
             </TabPanel>
           </TabPanels>
         </Tabs>

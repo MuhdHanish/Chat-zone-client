@@ -85,3 +85,7 @@ p, li, button, ul {
   margin-bottom: 16px;
 }
 
+.error {
+  color: rgb(200, 4, 4);
+  padding: 5px;
+}
