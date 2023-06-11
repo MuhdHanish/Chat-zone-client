@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
 import HandleForm from '../../../Hooks/HandleForm';
-import { FormControl, FormLabel } from '@chakra-ui/react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEyeSlash,faEye } from "@fortawesome/free-solid-svg-icons";
+import {
+  FormControl,
+  FormLabel,
+} from "@chakra-ui/react";
 import './Login.css'
 
 const Login = () => {
@@ -9,7 +14,10 @@ const Login = () => {
       passoword: "",
     });
     const [errors, setError] = useState({});
-
+    const [show,setShow] = useState(false)
+    const handleShow = () =>{
+      setShow(!show)
+    }
     const validation = {
       email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
       password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
@@ -28,6 +36,7 @@ const Login = () => {
       }
       try {
         setError({});
+        setShow(false)
         setButtonText("Sending");
       } catch (error) {
         setError({ general: error.response.data.message });
@@ -51,14 +60,31 @@ const Login = () => {
         {errors.email && <p className="error">{errors.email}</p>}
         <FormControl id="password" isRequired>
           <FormLabel>Password</FormLabel>
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={loginState.password}
-            spellCheck="false"
-            onChange={setLoginState}
-          />
+          <div className="password-input">
+            <input
+              type={show ? "text" : "password"}
+              placeholder="Password"
+              name="password"
+              value={loginState.password}
+              spellCheck="false"
+              onChange={setLoginState}
+            />
+            {show ? (
+              <FontAwesomeIcon
+                icon={faEye}
+                onClick={handleShow}
+                size="sm"
+                className="eye-icon"
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faEyeSlash}
+                size="sm"
+                onClick={handleShow}
+                className="eye-icon"
+              />
+            )}
+          </div>
         </FormControl>
         {errors.password && <p className="error">{errors.password}</p>}
         <button type="submit">

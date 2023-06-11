@@ -2,6 +2,8 @@ import { FormControl, FormLabel} from '@chakra-ui/react'
 import React, {  useState } from 'react'
 import HandleForm from '../../../Hooks/HandleForm'
 import './Signup.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEyeSlash,faEye } from '@fortawesome/free-solid-svg-icons'
 
 const Signup = () => {
   const [signupState,setSignupState] = HandleForm({
@@ -10,7 +12,10 @@ const Signup = () => {
     passoword:''
   });
   const [errors,setError] = useState({})
-
+  const [show, setShow] = useState(false);
+  const handleShow = () => {
+    setShow(!show);
+  };
   const validation = {
     name: /^[a-zA-Z0-9]{4,12}$/,
     email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -70,14 +75,31 @@ const Signup = () => {
         {errors.email && <p className="error">{errors.email}</p>}
         <FormControl id="password" isRequired>
           <FormLabel>Password</FormLabel>
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={signupState.password}
-            spellCheck="false"
-            onChange={setSignupState}
-          />
+          <div className="password-input">
+            <input
+              type={show ? "text" : "password"}
+              placeholder="Password"
+              name="password"
+              value={signupState.password}
+              spellCheck="false"
+              onChange={setSignupState}
+            />
+            {show ? (
+              <FontAwesomeIcon
+                icon={faEye}
+                onClick={handleShow}
+                size="sm"
+                className="eye-icon"
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faEyeSlash}
+                size="sm"
+                onClick={handleShow}
+                className="eye-icon"
+              />
+            )}
+          </div>
         </FormControl>
         {errors.password && <p className="error">{errors.password}</p>}
         <button type="submit">
