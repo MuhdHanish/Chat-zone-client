@@ -38,8 +38,8 @@ export const handleLogin = async (toast, loginState, setButtonText, navigate) =>
   showToast(toast, data.message, "success");
   navigate('/chats');
  } catch (error) {
-  showToast(toast, error.response.data.message);
   setButtonText("Log In");
+  showToast(toast, error.response.data.message);
   return;
  }
 };

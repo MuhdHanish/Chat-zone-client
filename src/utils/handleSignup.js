@@ -47,6 +47,7 @@ export const handleSignup = async (toast, signupState, profile, setButtonText, n
     showToast(toast, data.message, "success");
     navigate('/chats');
   } catch (error) {
+    setButtonText("Sign Up");
     showToast(toast, error.response.data.message);
     return;
   }

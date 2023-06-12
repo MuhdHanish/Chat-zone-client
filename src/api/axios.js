@@ -1,5 +1,5 @@
 import axios from "axios";
-import { baseUrl } from "../constance";
+import { baseUrl } from "../utils/constance";
 
 const axiosInstance = axios.create({
  baseURL : baseUrl
