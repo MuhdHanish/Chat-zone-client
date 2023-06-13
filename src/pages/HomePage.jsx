@@ -5,22 +5,22 @@ import { useEffect } from "react";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  useEffect(()=>{
-    const user = JSON.parse(localStorage.getItem('userInfo'));
-    if(user){
-      navigate('/chats')
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    if (user) {
+      navigate("/chats");
     }
-  },[navigate])
+  }, [navigate]);
   return (
     <section className="container">
-        <Row className="home-page">
-          <Col xs={12} md={6} xl={7}>
-            <span className="tagline">Chat - Zone</span>
-          </Col>
-        </Row>
-        <Row>
-          <AuthVarification/>
-        </Row>
+      <Row className="home-page">
+        <Col xs={12} md={6} xl={7}>
+          <span className="tagline">Chat - Zone</span>
+        </Col>
+      </Row>
+      <Row>
+        <AuthVarification />
+      </Row>
     </section>
   );
 };
