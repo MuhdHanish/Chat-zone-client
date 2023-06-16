@@ -10,7 +10,6 @@ import { GroupChatModal, ChatLoading } from "..";
 
 export const MyChats = () => {
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState()
-  console.log(chats)
   const [loggedUser, setLoggedUser] = useState();
   const toast = useToast();
   const fetchChats = async() =>{

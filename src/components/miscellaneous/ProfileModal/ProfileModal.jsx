@@ -14,7 +14,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { ViewIcon } from "@chakra-ui/icons";
-import "./ProfileModal.css";
 
 export const ProfileModal = ({ user, children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
