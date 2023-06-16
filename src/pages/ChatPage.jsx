@@ -5,7 +5,6 @@ import { ChatBox, MyChats, SideDrawer } from "../components/miscellaneous";
 
 const ChatPage = () => {
   const { user } = ChatState();
-  console.log(user);
 
   return (
     <Box width="100%">

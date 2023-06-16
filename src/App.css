@@ -89,3 +89,14 @@ p, li, button, ul {
   padding: 5px;
 }
 
+::-webkit-scrollbar{
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb{
+  background: rgba((136), 136, 136, 0.281);
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background: #555;
+}
