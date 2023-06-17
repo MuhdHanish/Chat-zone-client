@@ -80,7 +80,7 @@ export const MyChats = ({fetchAgain}) => {
         border={"1px solid rgba(255, 255, 255, 0.5)"}
         overflowY={"hidden"}
       >
-        {chats ? (
+        {chats.length ? (
           <Stack>
             {chats?.map((chat, index) => (
               <Box

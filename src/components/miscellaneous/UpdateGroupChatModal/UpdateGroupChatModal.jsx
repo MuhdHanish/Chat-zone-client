@@ -22,7 +22,7 @@ import React, { useRef, useState } from "react";
 import { UserBadgeItem, UserListItem } from "..";
 import axios from "../../../api/axios";
 
-export const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
+export const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
   const { selectedChat, setSelectedChat, user } = ChatState();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState();
@@ -56,7 +56,8 @@ export const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
       removeUser._id === user._id
         ? setSelectedChat()
         : setSelectedChat(data.removed);
-        setFetchAgain(!fetchAgain)
+      setFetchAgain(!fetchAgain);
+      fetchMessages();
       setLoading(false);
     } catch (err) {}
   };

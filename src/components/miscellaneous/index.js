@@ -8,3 +8,4 @@ export { GroupChatModal } from './GroupChatModal/GroupChatModal.jsx'
 export { UserBadgeItem } from "./UserBadgeItem/UserBadgeItem.jsx"
 export { SingleChat } from "./SingleChat/SingleChat.jsx"
 export { UpdateGroupChatModal } from "./UpdateGroupChatModal/UpdateGroupChatModal.jsx"
+export { ScrollableChat } from "./ScrollableChat/ScrollableChat.jsx"
