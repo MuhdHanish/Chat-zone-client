@@ -6,3 +6,5 @@ export { ChatLoading } from './ChatLoading/ChatLoading.jsx'
 export { UserListItem } from './UserListItem/UserListItem.jsx'
 export { GroupChatModal } from './GroupChatModal/GroupChatModal.jsx'
 export { UserBadgeItem } from "./UserBadgeItem/UserBadgeItem.jsx"
+export { SingleChat } from "./SingleChat/SingleChat.jsx"
+export { UpdateGroupChatModal } from "./UpdateGroupChatModal/UpdateGroupChatModal.jsx"

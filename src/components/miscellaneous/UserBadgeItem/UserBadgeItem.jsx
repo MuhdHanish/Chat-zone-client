@@ -15,14 +15,15 @@ export const UserBadgeItem = ({ user, handleFunction }) => {
       m={1}
       mb={2}
       fontSize={17}
+      color={"white"}
       bg={
-        "linear-gradient(90.21deg, rgba(170, 54, 124, 0.5) -5.91%, rgba(74, 47, 189, 0.5) 111.58%)"
+        "black"
       }
       cursor={"pointer"}
       onClick={handleFunction}
     >
       {user.name}
-      <FontAwesomeIcon style={{marginLeft:"5px"}} icon={faXmarkCircle} />
+      <FontAwesomeIcon style={{marginLeft:"5px"}} icon={faXmarkCircle}  />
     </Box>
   );
 };

@@ -91,6 +91,7 @@ export const SideDrawer = () => {
         bg={"rgba(18, 18, 18, 0.8)"}
         alignItems={"center"}
         p={"5px 10px 5px 10px"}
+        
       >
         <Tooltip label="Search Users" hasArrow placement="bottom-end">
           <Button
@@ -156,7 +157,7 @@ export const SideDrawer = () => {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
-                <Button onClick={searchHandler}>Go</Button>
+                <Button  onClick={searchHandler}>Go</Button>
               </Flex>
               {loading ? (
                 <ChatLoading />

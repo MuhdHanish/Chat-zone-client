@@ -8,7 +8,7 @@ import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { getSender } from "../../../config/chatLogic";
 import { GroupChatModal, ChatLoading } from "..";
 
-export const MyChats = () => {
+export const MyChats = ({fetchAgain}) => {
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState()
   const [loggedUser, setLoggedUser] = useState();
   const toast = useToast();
@@ -31,7 +31,7 @@ export const MyChats = () => {
    return ()=>{
 
    }
-  },[])
+  },[fetchAgain])
   return (
     <Box
       display={{
@@ -50,17 +50,19 @@ export const MyChats = () => {
       <Box
         pb={3}
         px={3}
+        
         fontSize={"20px"}
         display={"flex"}
         width={"100%"}
         justifyContent={"space-between"}
         alignItems={"center"}
       >
-        My Chats
+        Chats
         <GroupChatModal>
         <Button
           display={"flex"}
           fontSize={"15px"}
+          marginLeft={1}
           rightIcon={<FontAwesomeIcon icon={faPlusCircle} />}
         >
           New Group
