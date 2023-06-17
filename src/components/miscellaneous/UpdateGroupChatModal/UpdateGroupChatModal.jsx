@@ -145,7 +145,14 @@ export const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
   return (
     <>
       <IconButton onClick={onOpen} icon={<ViewIcon />} />
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal
+        isOpen={isOpen}
+        onClose={() => {
+          setSearchResult([]);
+          onClose();
+        }}
+        isCentered
+      >
         <ModalOverlay />
         <ModalContent style={{ color: "black" }}>
           <ModalHeader

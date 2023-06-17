@@ -82,7 +82,7 @@ export const MyChats = ({fetchAgain}) => {
       >
         {chats ? (
           <Stack>
-            {chats.map((chat, index) => (
+            {chats?.map((chat, index) => (
               <Box
                 key={index}
                 onClick={() => setSelectedChat(chat)}
@@ -100,10 +100,10 @@ export const MyChats = ({fetchAgain}) => {
               >
                 <Text>
                   { 
-                !chat.isGroupChat?(
-                   getSender(loggedUser,chat.users)
+                !chat?.isGroupChat?(
+                   getSender(loggedUser,chat?.users)
                  ):(
-                  chat.chatName
+                  chat?.chatName
                   )}
                 </Text>
               </Box>

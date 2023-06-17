@@ -98,7 +98,10 @@ export const GroupChatModal = ({ children }) => {
   return (
     <>
       <span onClick={onOpen}>{children}</span>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal isOpen={isOpen} onClose={()=>{
+        setSearchResult([]);
+        onClose()
+        }} isCentered>
         <ModalOverlay />
         <ModalContent style={{ color: "black" }}>
           <ModalHeader

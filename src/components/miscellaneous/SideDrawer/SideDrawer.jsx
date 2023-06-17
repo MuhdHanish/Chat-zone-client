@@ -143,7 +143,10 @@ export const SideDrawer = () => {
           </Menu>
         </Box>
       </Flex>
-      <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
+      <Drawer placement="left" onClose={()=>{
+        setSearchResult([]);
+        onClose();
+        }} isOpen={isOpen}>
         <DrawerOverlay>
           <DrawerContent style={{ backgroundColor: "rgba(18, 18, 18,0.9)" }}>
             <DrawerHeader padding={4} marginLeft={10} fontSize={"16px"}>
