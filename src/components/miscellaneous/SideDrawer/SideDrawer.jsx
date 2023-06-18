@@ -31,9 +31,12 @@ import { showToast } from "../../../utils";
 import axios from "../../../api/axios";
 import "./SideDrawer.css";
 import { ChatLoading, UserListItem } from "..";
+import { getSender } from "../../../config/chatLogic";
+import NotificationBadge from "react-notification-badge/lib/components/NotificationBadge";
+import { Effect } from "react-notification-badge";
 
 export const SideDrawer = () => {
-  const { user, setSelectedChat, chats, setChats} = ChatState();
+  const { user, setSelectedChat, chats, setChats,notification,setNotification} = ChatState();
   const navigae = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [search, setSearch] = useState("");
@@ -91,7 +94,6 @@ export const SideDrawer = () => {
         bg={"rgba(18, 18, 18, 0.8)"}
         alignItems={"center"}
         p={"5px 10px 5px 10px"}
-        
       >
         <Tooltip label="Search Users" hasArrow placement="bottom-end">
           <Button
@@ -120,9 +122,35 @@ export const SideDrawer = () => {
         <Box>
           <Menu>
             <MenuButton p={1}>
+              <NotificationBadge
+                count={notification?.length}
+                effect={Effect.SCALE}
+              />
               <BellIcon fontSize={"2xl"} m={1} />
             </MenuButton>
-            <MenuList></MenuList>
+            <MenuList style={{ color: "black" }} pl={2}>
+              {!notification.length && "No new messages"}
+              {notification.length<0 &&
+                notification &&
+                notification?.map((notif, index) => (
+                  <MenuItem
+                    key={index}
+                    onClick={() => {
+                      setSelectedChat(notif?.chat);
+                      setNotification(
+                        notification.filter((not) => not !== notif)
+                      );
+                    }}
+                  >
+                    {notification?.chat?.isGroupChat
+                      ? `New message in ${notification?.chat?.chatName}`
+                      : `New message from ${getSender(
+                          user,
+                          notification?.chat?.users
+                        )}`}
+                  </MenuItem>
+                ))}
+            </MenuList>
           </Menu>
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
@@ -143,10 +171,14 @@ export const SideDrawer = () => {
           </Menu>
         </Box>
       </Flex>
-      <Drawer placement="left" onClose={()=>{
-        setSearchResult([]);
-        onClose();
-        }} isOpen={isOpen}>
+      <Drawer
+        placement="left"
+        onClose={() => {
+          setSearchResult([]);
+          onClose();
+        }}
+        isOpen={isOpen}
+      >
         <DrawerOverlay>
           <DrawerContent style={{ backgroundColor: "rgba(18, 18, 18,0.9)" }}>
             <DrawerHeader padding={4} marginLeft={10} fontSize={"16px"}>
@@ -160,7 +192,7 @@ export const SideDrawer = () => {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
-                <Button  onClick={searchHandler}>Go</Button>
+                <Button onClick={searchHandler}>Go</Button>
               </Flex>
               {loading ? (
                 <ChatLoading />

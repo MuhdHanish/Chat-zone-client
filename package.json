@@ -20,6 +20,7 @@
     "react-bootstrap": "^2.7.4",
     "react-dom": "^18.2.0",
     "react-lottie": "^1.2.3",
+    "react-notification-badge": "^1.5.1",
     "react-on-screen": "^2.1.1",
     "react-router-dom": "^6.12.1",
     "react-scripts": "5.0.1",
