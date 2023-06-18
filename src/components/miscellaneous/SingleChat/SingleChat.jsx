@@ -19,6 +19,7 @@ import { baseUrl } from "../../../utils/constance";
 import { io } from "socket.io-client";
 import "./SingleChat.css";
 
+
 const ENDPOINT = baseUrl;
 let socket, selectedChatCompare;
 
@@ -28,6 +29,8 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [newMessage, setNewMessage] = useState([]);
   const { user, selectedChat, setSelectedChat } = ChatState();
   const [socketConnected, setSocketConnected] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const toast = useToast();
 
   const fetchMessages = async () => {
@@ -52,7 +55,9 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
-    socket.on("connection", () => setSocketConnected(true));
+    socket.on("connected", () => setSocketConnected(true));
+    socket.on("typing", () => setIsTyping(true));
+    socket.on("stop typing", () => setIsTyping(false));
   }, []);
 
   useEffect(() => {
@@ -78,6 +83,7 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       return;
     }
     try {
+      socket.emit("stop typing", selectedChat?._id);
       setNewMessage("");
       const config = {
         headers: {
@@ -102,7 +108,22 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const typingHandler = (event) => {
     setNewMessage(event.target.value);
+    if (!socketConnected) return;
+    if (!typing) {
+      setTyping(true);
+      socket.emit("typing", selectedChat?._id);
+    }
+    const lastTypingTime = new Date().getTime();
+    setTimeout(() => {
+      const timeNow = new Date().getTime();
+      const timeDiff = timeNow - lastTypingTime;
+      if (timeDiff >= 2000 && typing) {
+        socket.emit("stop typing", selectedChat?._id);
+        setTyping(false);
+      }
+    }, 2000);
   };
+
   return (
     <>
       {selectedChat ? (
@@ -164,7 +185,7 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               <>
                 {
                   <div className="messages">
-                    <ScrollableChat messages={messages} />
+                    <ScrollableChat messages={messages} isTyping={isTyping} />
                   </div>
                 }
               </>
@@ -174,6 +195,7 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 display={"flex"}
                 justifyContent={"space-between"}
                 gap={2}
+                position={"relative"}
                 alignItems={"center"}
               >
                 <Input
