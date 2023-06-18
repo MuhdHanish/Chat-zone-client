@@ -28,9 +28,6 @@ export const MyChats = ({fetchAgain}) => {
   useEffect(()=>{
    setLoggedUser(JSON.parse(localStorage.getItem('userInfo')).user);
    fetchChats();
-   return ()=>{
-
-   }
   },[fetchAgain])
   return (
     <Box
@@ -80,7 +77,7 @@ export const MyChats = ({fetchAgain}) => {
         border={"1px solid rgba(255, 255, 255, 0.5)"}
         overflowY={"hidden"}
       >
-        {chats.length ? (
+        {chats!==undefined ? (
           <Stack>
             {chats?.map((chat, index) => (
               <Box
