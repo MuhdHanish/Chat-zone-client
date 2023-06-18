@@ -15,12 +15,11 @@ import { getSender, getSenderFull } from "../../../config/chatLogic";
 import { ProfileModal, ScrollableChat, UpdateGroupChatModal } from "..";
 import axios from "../../../api/axios";
 import { showToast } from "../../../utils";
-import { baseUrl } from "../../../utils/constance";
 import { io } from "socket.io-client";
 import "./SingleChat.css";
 
 
-const ENDPOINT = baseUrl;
+const ENDPOINT = process.env.REACT_APP_BASE_URL;
 let socket, selectedChatCompare;
 
 export const SingleChat = ({ fetchAgain, setFetchAgain }) => {

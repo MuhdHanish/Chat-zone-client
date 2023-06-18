@@ -1,8 +1,7 @@
 import axios from "axios";
-import { baseUrl } from "../utils/constance";
 
 const axiosInstance = axios.create({
- baseURL : baseUrl,
+ baseURL: process.env.REACT_APP_BASE_URL,
 })
 
 export default axiosInstance;
