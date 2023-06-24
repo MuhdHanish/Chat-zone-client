@@ -77,7 +77,7 @@ export const MyChats = ({fetchAgain}) => {
         border={"1px solid rgba(255, 255, 255, 0.5)"}
         overflowY={"hidden"}
       >
-        {chats.length>=0 ? (
+        {chats!==undefined ? 
           <Stack>
             {chats?.map((chat, index) => (
               <Box
@@ -97,18 +97,18 @@ export const MyChats = ({fetchAgain}) => {
               >
                 <Text>
                   { 
-                !chat?.isGroupChat?(
+                !chat?.isGroupChat?
                    getSender(loggedUser,chat?.users)
-                 ):(
+                 :
                   chat?.chatName
-                  )}
+                  }
                 </Text>
               </Box>
             ))}
           </Stack>
-        ) : (
+         : 
           <ChatLoading />
-        )}
+        }
       </Box>
     </Box>
   );
