@@ -9,18 +9,19 @@ import { getSender } from "../../../config/chatLogic";
 import { GroupChatModal, ChatLoading } from "..";
 
 export const MyChats = ({fetchAgain}) => {
-  const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState()
+  const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
   const [loggedUser, setLoggedUser] = useState();
   const toast = useToast();
-  const fetchChats = async() =>{
+  const fetchChats = () =>{
     try{
      const config ={
       headers:{
         Authorization: `Bearer ${user.token}`
       }
      }
-     const {data} = await axios.get(`/chat`,config)
-     setChats(data.chats)
+      axios.get(`/chat`, config).then((data) => {
+        setChats(data.chats)
+      })
     }catch(err){
       showToast(toast,"Error Occured!")
     }
@@ -77,7 +78,7 @@ export const MyChats = ({fetchAgain}) => {
         border={"1px solid rgba(255, 255, 255, 0.5)"}
         overflowY={"hidden"}
       >
-        {chats!==undefined ? 
+        {chats ? 
           <Stack>
             {chats?.map((chat, index) => (
               <Box
