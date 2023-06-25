@@ -10,7 +10,7 @@ const HomePage = () => {
     if (user) {
       navigate("/chats");
     }
-  }, [navigate]);
+  }, []);
   return (
     <section className="container">
       <Row className="home-page">
