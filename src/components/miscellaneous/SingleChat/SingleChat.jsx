@@ -119,11 +119,11 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     setTimeout(() => {
       const timeNow = new Date().getTime();
       const timeDiff = timeNow - lastTypingTime;
-      if (timeDiff >= 2000 && typing) {
+      if (timeDiff >= 3000 && typing) {
         socket.emit("stop typing", selectedChat?._id);
         setTyping(false);
       }
-    }, 2000);
+    }, 3000);
   };
 
   return (
