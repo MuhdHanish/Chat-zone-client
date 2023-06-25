@@ -16,7 +16,7 @@ const ChatProvider = ({children}) => {
    return;
   }
   setUser(userInfo.user);
- }, [navigate])
+ }, [])
  return <ChatContext.Provider value={{ user, setUser,selectedChat,setSelectedChat, chats,setChats,notification,setNotification }}>{children}</ChatContext.Provider>
 }
 

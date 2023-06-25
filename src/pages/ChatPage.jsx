@@ -7,17 +7,20 @@ const ChatPage = () => {
   const { user } = ChatState();
   const [fetchAgain,setFetchAgain] = useState(false);
   return (
-    <Box width="100%">
-      {user && <SideDrawer />}
-      <Flex justifyContent="space-between" height="91.5vh" p="10px">
-        {user && (
-          <MyChats fetchAgain={fetchAgain}  />
-        )}
-        {user && (
-          <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
-        )}
-      </Flex>
-    </Box>
+    <>
+      {user ? (
+        <Box width="100%">
+          {user && <SideDrawer />}
+          <Flex justifyContent="space-between" height="91.5vh" p="10px">
+            {user && <MyChats fetchAgain={fetchAgain} />}
+            {user && (
+              <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+            )}
+          </Flex>
+        </Box>
+      ) : ({})
+    }
+    </>
   );
 };
 
