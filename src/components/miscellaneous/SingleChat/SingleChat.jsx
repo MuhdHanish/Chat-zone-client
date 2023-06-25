@@ -46,8 +46,10 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       setMessages(data.fetchedMessages);
       setLoading(false);
       socket.emit("join chat", selectedChat?._id);
+      return;
     } catch (err) {
       showToast(toast, "Error occured");
+      return;
     }
   };
 
@@ -62,7 +64,7 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   useEffect(() => {
     fetchMessages();
     selectedChatCompare = selectedChat;
-  }, [selectedChat]);
+  }, []);
 
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
@@ -103,6 +105,7 @@ export const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       );
       socket.emit("new message", data.sentedMessage);
       setMessages([...messages, data.sentedMessage]);
+      return;
     } catch (err) {
       return showToast(toast, "Error occured");
     }

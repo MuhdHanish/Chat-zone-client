@@ -25,9 +25,11 @@ export const MyChats = ({fetchAgain}) => {
       axios.get(`/chat`, config).then((data) => {
         setChats(data.data.chats);
         setLoading(false);
+        return;
       })
     }catch(err){
       showToast(toast,"Error Occured!")
+      return;
     }
   };
   useEffect(()=>{
