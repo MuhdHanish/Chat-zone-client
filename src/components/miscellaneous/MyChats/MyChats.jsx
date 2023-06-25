@@ -11,16 +11,20 @@ import { GroupChatModal, ChatLoading } from "..";
 export const MyChats = ({fetchAgain}) => {
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
   const [loggedUser, setLoggedUser] = useState();
+  const [loading, setLoading] = useState(false);
   const toast = useToast();
-  const fetchChats = () =>{
-    try{
+  const fetchChats = () => {
+    
+    try {
+      setLoading(true);
      const config ={
       headers:{
         Authorization: `Bearer ${user.token}`
       }
      }
       axios.get(`/chat`, config).then((data) => {
-        setChats(data.chats)
+        setChats(data.data.chats);
+        setLoading(false);
       })
     }catch(err){
       showToast(toast,"Error Occured!")
@@ -29,7 +33,7 @@ export const MyChats = ({fetchAgain}) => {
   useEffect(()=>{
    setLoggedUser(JSON.parse(localStorage.getItem('userInfo')).user);
    fetchChats();
-  },[fetchAgain])
+  },[])
   return (
     <Box
       display={{
@@ -40,7 +44,7 @@ export const MyChats = ({fetchAgain}) => {
       alignItems={"center"}
       p={3}
       bg={"rgba(18, 18, 18, 0.8)"}
-      w={{base:"100%",md:"31%"}}
+      w={{ base: "100%", md: "31%" }}
       borderRadius={"lg"}
       border={"1px solid rgba(255, 255, 255, 0.5)"}
       borderWidth={"1px"}
@@ -48,7 +52,6 @@ export const MyChats = ({fetchAgain}) => {
       <Box
         pb={3}
         px={3}
-        
         fontSize={"20px"}
         display={"flex"}
         width={"100%"}
@@ -57,14 +60,14 @@ export const MyChats = ({fetchAgain}) => {
       >
         Chats
         <GroupChatModal>
-        <Button
-          display={"flex"}
-          fontSize={"15px"}
-          marginLeft={1}
-          rightIcon={<FontAwesomeIcon icon={faPlusCircle} />}
-        >
-          New Group
-        </Button>
+          <Button
+            display={"flex"}
+            fontSize={"15px"}
+            marginLeft={1}
+            rightIcon={<FontAwesomeIcon icon={faPlusCircle} />}
+          >
+            New Group
+          </Button>
         </GroupChatModal>
       </Box>
       <Box
@@ -78,7 +81,7 @@ export const MyChats = ({fetchAgain}) => {
         border={"1px solid rgba(255, 255, 255, 0.5)"}
         overflowY={"hidden"}
       >
-        {chats ? 
+        {chats.length >= 0 && (
           <Stack>
             {chats?.map((chat, index) => (
               <Box
@@ -97,19 +100,15 @@ export const MyChats = ({fetchAgain}) => {
                 borderRadius={"lg"}
               >
                 <Text>
-                  { 
-                !chat?.isGroupChat?
-                   getSender(loggedUser,chat?.users)
-                 :
-                  chat?.chatName
-                  }
+                  {!chat?.isGroupChat
+                    ? getSender(loggedUser, chat?.users)
+                    : chat?.chatName}
                 </Text>
               </Box>
             ))}
           </Stack>
-         : 
-          <ChatLoading />
-        }
+        )}
+        {loading && <ChatLoading />}
       </Box>
     </Box>
   );
